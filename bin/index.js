@@ -6,7 +6,8 @@ var {argv} = require('node:process');
 argv = Object.entries(argv).slice(2).map(entry => entry[1]);
 // console.log(arg);
 // process_file(argv[0], undefined, argv[1]);
-process_file(argv[0], argv[1], argv[2]);
+// process_file(argv[0], argv[1], argv[2]);
+process_file(argv[0], argv[1], undefined);
 
 function get_id(data) {
     if (data.length === 0) return 1;
@@ -38,6 +39,7 @@ function process_file(val, id, msg){
             else console.log(`Entry added with id: ${get_id(data)-1}`);
         });
     }
+
     else if(val === `update`){
         let sub_data = data.find(task => task.id === Number(id));    
         if(sub_data){
@@ -47,7 +49,23 @@ function process_file(val, id, msg){
                 if(err) throw err;
                 console.log(`Task with id ${id} updated`);
             })
-            console.log(data);     
+            // console.log(data);     
+        }
+        else{
+            console.log(`Task with id ${id} not found`);
+            return;
+        }
+    }
+
+    else if(val === `delete`){
+        let sub_data = data.find(task => delete task.id === Number(id));
+        if(sub_data){
+            data = data.filter(task => task.id != Number(id));
+            fs.writeFile(filePath, JSON.stringify(data, null, 2), (err) => {
+                if(err) throw err;
+                console.log("Data deleted");
+            })
+            // console.log(data);
         }
         else{
             console.log(`Task with id ${id} not found`);
