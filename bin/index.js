@@ -64,7 +64,6 @@ function process_file(val, id, msg){
                 if(err) throw err;
                 console.log(`Task with id ${id} updated`);
             })
-            // console.log(data);     
         }
         else{
             console.log(`Task with id ${id} not found`);
@@ -80,7 +79,6 @@ function process_file(val, id, msg){
                 if(err) throw err;
                 console.log("Data deleted");
             })
-            // console.log(data);
         }
         else{
             console.log(`Task with id ${id} not found`);
@@ -106,11 +104,9 @@ function process_file(val, id, msg){
     let filtered_data;
 
     if(id === undefined){
-        // List all tasks
         filtered_data = data;
     }
     else if(id === "done" || id === "todo" || id === "in-progress"){
-        // List tasks with specific status
         filtered_data = data.filter(task => task.status === id);
     }
     else{
