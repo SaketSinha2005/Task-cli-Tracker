@@ -39,13 +39,19 @@ function process_file(val, id, msg){
         });
     }
     else if(val === `update`){
-        let data
-        try{ 
-            let data2 = data[id-1];
-            console.log(data2);
+        let sub_data = data.find(task => task.id === Number(id));    
+        if(sub_data){
+            sub_data.description = msg;
+            sub_data.updatedAt = datetime; 
+            fs.writeFile(filePath, JSON.stringify(data, null, 2), (err) => {
+                if(err) throw err;
+                console.log(`Task with id ${id} updated`);
+            })
+            console.log(data);     
         }
-        catch(error){
-            console.log(error);
+        else{
+            console.log(`Task with id ${id} not found`);
+            return;
         }
     }
 }
