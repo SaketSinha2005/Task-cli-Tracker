@@ -13,6 +13,9 @@ else if (argv[0] === "update") {
 else if (argv[0] === "delete") {
     process_file(argv[0], argv[1], undefined);
 }
+else if(argv[0] === "mark-in-progress" || argv[0] === "mark-done"){
+    process_file(argv[0], argv[1], undefined);
+}
 else {
     console.log(`Unknown command: ${argv[0]}`);
 }
@@ -79,6 +82,21 @@ function process_file(val, id, msg){
         else{
             console.log(`Task with id ${id} not found`);
             return;
+        }
+    }
+    else if(val === `mark-in-progress` || val === 'mark-done'){
+        let sub_data = data.find(task => task.id === Number(id));
+        if(sub_data){
+            if(val === `mark-in-progress`) sub_data.status = "in-progress";
+            else if(val === `mark-done`) sub_data.status = "done";
+            sub_data.updatedAt = datetime;
+            fs.writeFile(filePath, JSON.stringify(data, null, 2), (err) => {
+                if(err) throw err;
+            })
+        }
+        else{
+            console.log(`Task with id ${id} not found`);
+            return
         }
     }
 }
