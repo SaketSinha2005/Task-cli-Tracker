@@ -16,6 +16,9 @@ else if (argv[0] === "delete") {
 else if(argv[0] === "mark-in-progress" || argv[0] === "mark-done"){
     process_file(argv[0], argv[1], undefined);
 }
+else if(argv[0] === "list"){
+    process_file(argv[0], argv[1], undefined);
+}
 else {
     console.log(`Unknown command: ${argv[0]}`);
 }
@@ -99,4 +102,27 @@ function process_file(val, id, msg){
             return
         }
     }
+    else if(val === `list`){
+    let filtered_data;
+
+    if(id === undefined){
+        // List all tasks
+        filtered_data = data;
+    }
+    else if(id === "done" || id === "todo" || id === "in-progress"){
+        // List tasks with specific status
+        filtered_data = data.filter(task => task.status === id);
+    }
+    else{
+        console.log(`Invalid status: ${id}`);
+        return;
+    }
+
+    if(filtered_data.length === 0){
+        console.log("No tasks found");
+        return;
+    }
+
+    console.log(filtered_data);
+}
 }
