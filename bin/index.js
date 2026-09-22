@@ -4,10 +4,19 @@ const fs = require("node:fs");
 var {argv} = require('node:process');
 
 argv = Object.entries(argv).slice(2).map(entry => entry[1]);
-// console.log(arg);
-// process_file(argv[0], undefined, argv[1]);
-// process_file(argv[0], argv[1], argv[2]);
-process_file(argv[0], argv[1], undefined);
+if (argv[0] === "add") {
+    process_file(argv[0], undefined, argv[1]);
+}
+else if (argv[0] === "update") {
+    process_file(argv[0], argv[1], argv[2]);
+}
+else if (argv[0] === "delete") {
+    process_file(argv[0], argv[1], undefined);
+}
+else {
+    console.log(`Unknown command: ${argv[0]}`);
+}
+
 
 function get_id(data) {
     if (data.length === 0) return 1;
@@ -58,7 +67,7 @@ function process_file(val, id, msg){
     }
 
     else if(val === `delete`){
-        let sub_data = data.find(task => delete task.id === Number(id));
+        let sub_data = data.find(task => task.id === Number(id));
         if(sub_data){
             data = data.filter(task => task.id != Number(id));
             fs.writeFile(filePath, JSON.stringify(data, null, 2), (err) => {
