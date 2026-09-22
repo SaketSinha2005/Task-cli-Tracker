@@ -1,0 +1,15 @@
+{
+  "name": "backend_dev",
+  "version": "1.0.0",
+  "description": "",
+  "license": "ISC",
+  "author": "Saket Sinha",
+  "type": "commonjs",
+  "main": "./bin/index.js",
+  "bin":{ 
+    "task-cli":  "./bin/index.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
